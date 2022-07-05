@@ -13,6 +13,7 @@ class Search extends React.Component {
       previousArtist: '',
       buttonSearch: true,
       loading: false,
+      showElements: false,
       album: [],
     };
   }
@@ -37,6 +38,7 @@ class Search extends React.Component {
     this.setState({ loading: true });
     const artists = await searchAlbumsAPI(artistName);
     this.setState({
+      showElements: true,
       previousArtist: artistName,
       artistName: '',
       loading: false,
@@ -45,7 +47,8 @@ class Search extends React.Component {
   }
 
   render() {
-    const { artistName, buttonSearch, loading, previousArtist, album } = this.state;
+    const { artistName, buttonSearch, loading,
+      previousArtist, album, showElements } = this.state;
     return (
       <>
         <Header />
@@ -71,26 +74,29 @@ class Search extends React.Component {
             >
               Search
             </button>
-            <p>{`Resultado de álbuns de: ${previousArtist}`}</p>
-            { album.length === 0 ? 'Nenhum álbum foi encontrado' : (
-              album.map((item) => (
-                <div key={ item.collectionId }>
-                  <p>{`ID: ${item.artistId}`}</p>
-                  <p>{`Artist name: ${item.artistName}`}</p>
-                  <p>{`Collection ID: ${item.collectionId}`}</p>
-                  <p>{`Collection name: ${item.collectionName}`}</p>
-                  <p>{`Collection price: $${item.collectionPrice}`}</p>
-                  <img src={ item.artworkUrl100 } alt="foto do album" />
-                  <p>{`Release date: ${item.releaseDate}`}</p>
-                  <p>{`Tracks: ${item.trackCount}`}</p>
-                  <Link
-                    data-testid={ `link-to-album-${item.collectionId}` }
-                    to={ `/album/${item.collectionId}` }
-                  >
-                    Link
-                  </Link>
-                </div>
-              ))) }
+            {showElements && (
+              <div>
+                <p>{`Resultado de álbuns de: ${previousArtist}`}</p>
+                { album.length === 0 ? <p>Nenhum álbum foi encontrado</p> : (
+                  album.map((item) => (
+                    <div key={ item.collectionId }>
+                      <p>{`ID: ${item.artistId}`}</p>
+                      <p>{`Artist name: ${item.artistName}`}</p>
+                      <p>{`Collection ID: ${item.collectionId}`}</p>
+                      <p>{`Collection name: ${item.collectionName}`}</p>
+                      <p>{`Collection price: $${item.collectionPrice}`}</p>
+                      <img src={ item.artworkUrl100 } alt="foto do album" />
+                      <p>{`Release date: ${item.releaseDate}`}</p>
+                      <p>{`Tracks: ${item.trackCount}`}</p>
+                      <Link
+                        data-testid={ `link-to-album-${item.collectionId}` }
+                        to={ `/album/${item.collectionId}` }
+                      >
+                        Ir para o álbum
+                      </Link>
+                    </div>
+                  ))) }
+              </div>)}
           </div>
         )}
       </>
