@@ -74,7 +74,7 @@ class Search extends React.Component {
             <p>{`Resultado de álbuns de: ${previousArtist}`}</p>
             { album.length === 0 ? 'Nenhum álbum foi encontrado' : (
               album.map((item) => (
-                <div key={ item.artistID }>
+                <div key={ item.collectionId }>
                   <p>{`ID: ${item.artistId}`}</p>
                   <p>{`Artist name: ${item.artistName}`}</p>
                   <p>{`Collection ID: ${item.collectionId}`}</p>
