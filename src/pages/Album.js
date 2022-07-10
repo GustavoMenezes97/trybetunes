@@ -34,6 +34,8 @@ class Album extends React.Component {
           <p data-testid="album-name">{title.collectionName}</p>
           { album.filter((item) => item.previewUrl).map((item) => (<MusicCard
             key={ item.trackName }
+            trackId={ item.trackId }
+            music={ item }
             musicName={ item.trackName }
             player={ item.previewUrl }
           />))}
